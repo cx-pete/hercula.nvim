@@ -10,6 +10,11 @@ local defaults = {
 	dirs = {
 		vim.env.HOME,
 	},
+	scan = {
+		hidden = false,
+		depth = 5,
+		search_pattern = ".epub",
+	},
 }
 
 M.options = {}
