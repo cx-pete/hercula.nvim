@@ -70,12 +70,12 @@ M.open = function(opts)
 					})
 					--vim.cmd.set("guicursor=")
 					--vim.cmd.set("linebreak")
-					vim.cmd.EpubOpen(path)
+					require("epub").open_epub(path)
 				end)
 				return true
 			end,
 		})
 		:find()
 end
---M.open()
+-- M.open()
 return M
