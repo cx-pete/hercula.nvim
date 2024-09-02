@@ -1,20 +1,17 @@
 # hercula.nvim
-Telescope EPUB picker with floating epub.nvim reader
+Telescope EPUB picker with floating epub.nvim reader.
 
 **Install via Lazy**
 ```lua
   {
     'cx-pete/hercula.nvim',
     dependencies = {
-      'CrystalDime/epub.nvim',
+      { 'CrystalDime/epub.nvim', opts = {} },
       'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
     },
-    opts = {
-      -- idk
-    },
+    opts = {},
     config = function()
-      -- test
       pcall(require('telescope').load_extension, 'hercula')
     end,
   },
