@@ -2,7 +2,7 @@
 Telescope EPUB picker with floating epub.nvim reader
 
 **Install via Lazy**
-```
+```lua
   {
     'cx-pete/hercula.nvim',
     dependencies = {
