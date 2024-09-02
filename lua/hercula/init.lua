@@ -40,7 +40,6 @@ end
 
 local M = {}
 M.open = function(opts)
-	local config = require("lua/config").options
 	opts = opts or {}
 	pickers
 		.new(opts, {

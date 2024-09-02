@@ -16,7 +16,7 @@ require("telescope").load_extension("hercula")
 --M.actions = require("hercula.actions")
 M.open = require("hercula").open
 M.setup = function(opts)
-	require("config").setup(opts)
+	require("lua/config").setup(opts)
 end
 --M.utils = require("hercula.utils")
 
