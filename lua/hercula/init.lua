@@ -7,7 +7,7 @@ local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local make_entry = require("telescope.make_entry")
 local scan = require("plenary.scandir")
-local config = require("lua/config")
+--local config = require("lua/config").options
 --
 --
 local function find_books(opts)
@@ -21,14 +21,15 @@ local function find_books(opts)
 end
 
 local function find_books_extended(opts)
+	local config = require("lua/config").options
 	opts = opts or {}
-	local dirs = config.options.dirs
+	local dirs = config.dirs
 	local result_list = {}
 	for k, v in pairs(dirs) do
 		local results = scan.scan_dir(v, {
-			hidden = config.options.scan.hidden,
-			depth = config.options.scan.depth,
-			search_pattern = config.options.scan.search_pattern,
+			hidden = config.scan.hidden,
+			depth = config.scan.depth,
+			search_pattern = config.scan.search_pattern,
 		})
 		for k2, v2 in pairs(results) do
 			table.insert(result_list, v2)
@@ -39,6 +40,7 @@ end
 
 local M = {}
 M.open = function(opts)
+	local config = require("lua/config").options
 	opts = opts or {}
 	pickers
 		.new(opts, {
@@ -77,5 +79,5 @@ M.open = function(opts)
 		})
 		:find()
 end
--- M.open()
+--M.open()
 return M
