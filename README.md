@@ -22,7 +22,7 @@ return {
 }
 ```
 
-Open toggleterm-manager by either:
+Open the Hercula Telescope picker by either:
 
 - running the command `:Telescope hercula`
 - calling lua require('hercula').open()
