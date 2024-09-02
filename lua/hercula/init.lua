@@ -1,5 +1,5 @@
 -- NOTE: Hercula.nvim is a telescope EPUB finder - EpubOpen requires CrystalDime/epub.nvim
---
+
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
@@ -13,9 +13,27 @@ local function find_books(opts)
 	opts = opts or {}
 	local result_list = scan.scan_dir(vim.fn.getcwd(), {
 		hidden = false,
-		depth = 2,
+		depth = 3,
 		search_pattern = ".epub",
 	})
+	return result_list
+end
+
+local function find_books_extended(opts)
+	opts = opts or {}
+	local dirs = require("lua/config").options.dirs
+	local result_list = {}
+	for k, v in pairs(dirs) do
+		local results = scan.scan_dir(v, {
+			hidden = false,
+			depth = 3,
+			search_pattern = ".epub",
+		})
+		for k2, v2 in pairs(results) do
+			table.insert(result_list, v2)
+		end
+	end
+	print(vim.inspect(result_list))
 	return result_list
 end
 
@@ -24,10 +42,11 @@ M.open = function(opts)
 	opts = opts or {}
 	pickers
 		.new(opts, {
-			prompt_title = "hercula",
+			prompt_title = "Finder",
 			finder = finders.new_table({
-				results = find_books(opts),
+				results = find_books_extended(opts),
 				entry_maker = make_entry.gen_from_file(opts),
+				-- TODO: Entry maker should use extracted EPUB data for better search
 			}),
 			sorter = conf.file_sorter(opts),
 			attach_mappings = function(prompt_bufnr, map)
@@ -46,10 +65,10 @@ M.open = function(opts)
 						style = "minimal",
 						border = "rounded",
 						anchor = "NW",
-						title = " bookwarp ",
-						--title_pos = "center",
+						title = " hercula.nvim ",
+						title_pos = "center",
 					})
-					vim.cmd.set("guicursor=")
+					--vim.cmd.set("guicursor=")
 					--vim.cmd.set("linebreak")
 					vim.cmd.EpubOpen(path)
 				end)
@@ -58,4 +77,5 @@ M.open = function(opts)
 		})
 		:find()
 end
+M.open()
 return M
