@@ -3,7 +3,6 @@ Telescope EPUB picker with floating epub.nvim reader
 
 **Install via Lazy**
 ```
-return {
   {
     'cx-pete/hercula.nvim',
     dependencies = {
@@ -19,10 +18,9 @@ return {
       pcall(require('telescope').load_extension, 'hercula')
     end,
   },
-}
 ```
 
 Open the Hercula Telescope picker by either:
 
 - running the command `:Telescope hercula`
-- calling lua require('hercula').open()
+- calling `lua require('hercula').open()`
