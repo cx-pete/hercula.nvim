@@ -30,9 +30,8 @@ M.setup = function(opts)
 	M.options = vim.tbl_deep_extend("force", defaults, opts)
 end
 
-local function find_books_extended(opts)
+local function find_books_extended()
 	local config = M.options
-	opts = opts or {}
 	local dirs = config.dirs
 	local result_list = {}
 	for k, v in pairs(dirs) do
@@ -54,7 +53,7 @@ M.open = function(opts)
 		.new(opts, {
 			prompt_title = "Finder",
 			finder = finders.new_table({
-				results = find_books_extended(opts),
+				results = find_books_extended(),
 				entry_maker = make_entry.gen_from_file(opts),
 				-- TODO: Entry maker should use extracted EPUB data for better search
 			}),
