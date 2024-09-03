@@ -8,8 +8,10 @@ local action_state = require("telescope.actions.state")
 local make_entry = require("telescope.make_entry")
 local scan = require("plenary.scandir")
 --
+local M = {}
+
 local function find_books_extended(opts)
-	local config = require("hercula.config").options
+	local config = M.options
 	opts = opts or {}
 	local dirs = config.dirs
 	local result_list = {}
@@ -26,7 +28,6 @@ local function find_books_extended(opts)
 	return result_list
 end
 
-local M = {}
 M.open = function(opts)
 	opts = opts or {}
 	pickers
@@ -65,6 +66,26 @@ M.open = function(opts)
 			end,
 		})
 		:find()
+end
+
+M.setup = function(opts)
+	local defaults = {
+		mappings = {
+			i = {
+				--["<C-m>"] = { action = actions.mark },
+			},
+		},
+		dirs = {
+			vim.env.HOME,
+		},
+		scan = {
+			hidden = false,
+			depth = 5,
+			search_pattern = ".epub",
+		},
+	}
+	opts = opts or {}
+	M.options = vim.tbl_deep_extend("force", defaults, opts)
 end
 --M.open()
 return M
