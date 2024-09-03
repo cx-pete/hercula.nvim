@@ -29,9 +29,9 @@ M.setup = function(opts)
 	}
 	M.options = vim.tbl_deep_extend("force", defaults, opts)
 end
-
 local function find_books_extended()
 	local config = M.options
+	print(vim.inspect(config))
 	local dirs = config.dirs
 	local result_list = {}
 	for k, v in pairs(dirs) do
@@ -49,6 +49,7 @@ end
 
 M.open = function(opts)
 	opts = opts or {}
+	--M.setup(opts)
 	pickers
 		.new(opts, {
 			prompt_title = "Finder",
@@ -63,7 +64,6 @@ M.open = function(opts)
 					actions.close(prompt_bufnr)
 					local entry = action_state.get_selected_entry()
 					local path = entry["path"]
-					print(path)
 
 					vim.api.nvim_open_win(0, true, {
 						relative = "win",
@@ -86,5 +86,5 @@ M.open = function(opts)
 		})
 		:find()
 end
---M.open()
+--M.open({ scan = { search_pattern = ".breakmyshit" } })
 return M
