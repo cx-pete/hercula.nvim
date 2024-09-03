@@ -7,19 +7,7 @@ local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local make_entry = require("telescope.make_entry")
 local scan = require("plenary.scandir")
---local config = require("lua/config").options
 --
---
-local function find_books(opts)
-	opts = opts or {}
-	local result_list = scan.scan_dir(vim.fn.getcwd(), {
-		hidden = false,
-		depth = 3,
-		search_pattern = ".epub",
-	})
-	return result_list
-end
-
 local function find_books_extended(opts)
 	local config = require("config").options
 	opts = opts or {}
