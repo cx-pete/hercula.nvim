@@ -49,7 +49,7 @@ end
 
 M.open = function(opts)
 	opts = opts or {}
-	--M.setup(opts)
+	M.setup(opts)
 	pickers
 		.new(opts, {
 			prompt_title = "Finder",
