@@ -17,6 +17,8 @@ end
 return telescope.register_extension({
 	setup = setup,
 	exports = {
-		hercula = open,
+		hercula = function(opts)
+			return open(opts)
+		end,
 	},
 })
