@@ -1,6 +1,6 @@
 local telescope = require("telescope")
 local open = require("hercula").open
-local setup = require("config").setup
+local setup = require("hercula.config").setup
 
 local has_telescope = pcall(require, "telescope")
 if not has_telescope then
@@ -15,7 +15,7 @@ if not has_epub then
 end
 
 return telescope.register_extension({
-	setup = setup(ext_config),
+	setup = setup(),
 	exports = {
 		hercula = open,
 	},

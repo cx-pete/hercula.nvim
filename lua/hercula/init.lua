@@ -9,7 +9,7 @@ local make_entry = require("telescope.make_entry")
 local scan = require("plenary.scandir")
 --
 local function find_books_extended(opts)
-	local config = require("config").options
+	local config = require("hercula.config").options
 	opts = opts or {}
 	local dirs = config.dirs
 	local result_list = {}
