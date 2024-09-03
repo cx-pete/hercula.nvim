@@ -15,9 +15,10 @@ if not has_epub then
 end
 
 return telescope.register_extension({
-	setup = setup,
+	setup = setup(),
 	exports = {
 		hercula = function(opts)
+			opts = setup(opts)
 			return open(opts)
 		end,
 	},
