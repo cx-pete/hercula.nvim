@@ -10,6 +10,26 @@ local scan = require("plenary.scandir")
 --
 local M = {}
 
+M.setup = function(opts)
+	opts = opts or {}
+	local defaults = {
+		mappings = {
+			i = {
+				--["<C-m>"] = { action = actions.mark },
+			},
+		},
+		dirs = {
+			vim.env.HOME,
+		},
+		scan = {
+			hidden = false,
+			depth = 5,
+			search_pattern = ".epub",
+		},
+	}
+	M.options = vim.tbl_deep_extend("force", defaults, opts)
+end
+
 local function find_books_extended(opts)
 	local config = M.options
 	opts = opts or {}
@@ -66,26 +86,6 @@ M.open = function(opts)
 			end,
 		})
 		:find()
-end
-
-M.setup = function(opts)
-	local defaults = {
-		mappings = {
-			i = {
-				--["<C-m>"] = { action = actions.mark },
-			},
-		},
-		dirs = {
-			vim.env.HOME,
-		},
-		scan = {
-			hidden = false,
-			depth = 5,
-			search_pattern = ".epub",
-		},
-	}
-	opts = opts or {}
-	M.options = vim.tbl_deep_extend("force", defaults, opts)
 end
 --M.open()
 return M
