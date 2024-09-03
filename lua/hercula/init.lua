@@ -85,5 +85,5 @@ M.open = function(opts)
 		})
 		:find()
 end
---M.open({ scan = { search_pattern = ".breakmyshit" } })
+--M.open({ scan = { search_pattern = ".txt" } })
 return M
