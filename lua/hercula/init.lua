@@ -29,33 +29,44 @@ M.setup = function(opts)
 	}
 	M.options = vim.tbl_deep_extend("force", defaults, opts)
 end
+
 local function find_books_extended()
 	local config = M.options
-	print(vim.inspect(config))
 	local dirs = config.dirs
 	local result_list = {}
-	for k, v in pairs(dirs) do
-		local results = scan.scan_dir(v, {
+	for i, dir in pairs(dirs) do
+		local results = scan.scan_dir(dir, {
 			hidden = config.scan.hidden,
 			depth = config.scan.depth,
 			search_pattern = config.scan.search_pattern,
 		})
-		for k2, v2 in pairs(results) do
-			table.insert(result_list, v2)
+		for j, path in pairs(results) do
+			local split = {}
+
+			table.insert(split, path)
+			table.insert(split, string.match(string.sub(path, 1, (string.len(path) - 5)), ".+/([^/]+)$"))
+			table.insert(result_list, split)
 		end
 	end
 	return result_list
 end
 
 M.open = function(opts)
+	-- M.setup(opts)
 	opts = opts or {}
 	pickers
 		.new(opts, {
 			prompt_title = "Finder",
 			finder = finders.new_table({
 				results = find_books_extended(),
-				entry_maker = make_entry.gen_from_file(opts),
-				-- TODO: Entry maker should use extracted EPUB data for better search
+				entry_maker = function(entry)
+					return {
+						value = entry,
+						path = entry[1],
+						display = entry[2],
+						ordinal = entry[2],
+					}
+				end,
 			}),
 			sorter = conf.file_sorter(opts),
 			attach_mappings = function(prompt_bufnr, map)
@@ -76,8 +87,6 @@ M.open = function(opts)
 						title = " hercula.nvim ",
 						title_pos = "center",
 					})
-					--vim.cmd.set("guicursor=")
-					--vim.cmd.set("linebreak")
 					require("epub").open_epub(path)
 				end)
 				return true
@@ -85,5 +94,6 @@ M.open = function(opts)
 		})
 		:find()
 end
---M.open({ scan = { search_pattern = ".txt" } })
+--
+-- M.open({ scan = { search_pattern = ".epub" } })
 return M
