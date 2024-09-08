@@ -76,11 +76,15 @@ M.open = function(opts)
 					local screen_w = vim.opt.columns:get()
 					local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
 					local window_w = screen_w * 0.5
+					if window_w < 60 then
+						window_w = screen_w * 0.8
+					end
 					local window_h = screen_h * 0.9
 					local window_w_int = math.floor(window_w)
 					local window_h_int = math.floor(window_h)
 					local center_x = (screen_w - window_w) / 2
 					local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+					print(window_w)
 					vim.api.nvim_open_win(0, true, {
 						relative = "editor",
 						row = center_y,
