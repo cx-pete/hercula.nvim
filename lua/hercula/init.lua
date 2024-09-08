@@ -1,18 +1,16 @@
 -- NOTE: Hercula.nvim is a telescope EPUB finder - EpubOpen requires CrystalDime/epub.nvim
-
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
-local make_entry = require("telescope.make_entry")
 local scan = require("plenary.scandir")
 --
 local M = {}
-
 M.setup = function(opts)
 	opts = opts or {}
 	local defaults = {
+		-- TODO: Add mappings
 		mappings = {
 			i = {
 				--["<C-m>"] = { action = actions.mark },
@@ -74,13 +72,21 @@ M.open = function(opts)
 					actions.close(prompt_bufnr)
 					local entry = action_state.get_selected_entry()
 					local path = entry["path"]
-
+					-- window config options
+					local screen_w = vim.opt.columns:get()
+					local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+					local window_w = screen_w * 0.5
+					local window_h = screen_h * 0.9
+					local window_w_int = math.floor(window_w)
+					local window_h_int = math.floor(window_h)
+					local center_x = (screen_w - window_w) / 2
+					local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
 					vim.api.nvim_open_win(0, true, {
-						relative = "win",
-						row = 0,
-						col = 10,
-						width = 66,
-						height = 35,
+						relative = "editor",
+						row = center_y,
+						col = center_x,
+						width = window_w_int,
+						height = window_h_int,
 						style = "minimal",
 						border = "rounded",
 						anchor = "NW",
@@ -94,6 +100,6 @@ M.open = function(opts)
 		})
 		:find()
 end
---
+
 -- M.open({ scan = { search_pattern = ".epub" } })
 return M
